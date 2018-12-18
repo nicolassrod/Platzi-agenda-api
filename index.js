@@ -25,7 +25,8 @@ app.get('/set-agenda-data/', (req, res, next) => {
   axios.get('https://platzi.com/agenda/')
     .then((response) => {
       var $ = cheerio.load(response.data)
-      eval($('script')[17].children[0].data)
+      console.log($('script')[25])
+      eval($('script')[25].children[0].data)
       var dataArray = Object.values(data.scheduleItems.agenda_all.agenda_items)
 
       dataArray.sort( (a, b) => {
@@ -41,6 +42,7 @@ app.get('/set-agenda-data/', (req, res, next) => {
         ))
         res.send('💃💃💃💃💃💃💃')
       } catch (err) {
+        console.log('Write error')
         res.send({ message: err.message })
       }
     })
