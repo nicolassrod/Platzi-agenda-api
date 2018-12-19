@@ -59,6 +59,6 @@ app.get('/get-agenda-data/', (req, res, next) => {
   res.sendFile(path.join(__dirname, './data.json'))
 })
 
-app.listen(3000, () => {
-  console.log('Server Runing')
+app.listen(process.env.PORT || 3000, () => {
+  console.log("Express is working on port " + server.address().port);
 })
