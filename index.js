@@ -22,18 +22,18 @@ app.use(helmet({
 }))
 
 app.get('/set-agenda-data/', (req, res, next) => {
+  console.log('set-agenda-data called')
+  
   axios.get('https://platzi.com/agenda/')
     .then((response) => {
       var $ = cheerio.load(response.data)
-      console.log($('script')[25])
       eval($('script')[25].children[0].data)
       var dataArray = Object.values(data.scheduleItems.agenda_all.agenda_items)
 
       dataArray.sort( (a, b) => {
         return new Date(a.start_time) - new Date(b.start_time)
       })
-      console.log('🤗')
-
+      
       try {
         fs.writeFileSync('data.json', JSON.stringify(
           dataArray.map(item => Object.assign({}, item, {
@@ -42,12 +42,12 @@ app.get('/set-agenda-data/', (req, res, next) => {
         ))
         res.send('💃💃💃💃💃💃💃')
       } catch (err) {
-        console.log('Write error')
+        console.log(`Write error, ${err.message}`)
         res.send({ message: err.message })
       }
     })
     .catch((err) => {
-      console.log('ERROR!!')
+      console.log(`AXIOS ERROR!! ${err.message}`)
       res.status(200)
       res.send({
         message: err.message
@@ -56,6 +56,7 @@ app.get('/set-agenda-data/', (req, res, next) => {
 })
 
 app.get('/get-agenda-data/', (req, res, next) => {
+  console.log('get-agenda-data called')
   res.sendFile(path.join(__dirname, './data.json'))
 })
 
