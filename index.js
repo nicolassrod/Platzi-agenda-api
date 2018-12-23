@@ -57,6 +57,7 @@ app.get('/set-agenda-data/', (req, res, next) => {
 
 app.get('/get-agenda-data/', (req, res, next) => {
   console.log('get-agenda-data called')
+  res.setHeader('Cache-Control', 'public, max-age=43200')
   res.sendFile(path.join(__dirname, './data.json'))
 })
 
