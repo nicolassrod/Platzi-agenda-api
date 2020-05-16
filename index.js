@@ -21,13 +21,13 @@ app.use(helmet({
   frameguard: {action: 'deny'}
 }))
 
-app.get('/set-agenda-data/', (req, res, next) => {
+app.get('/set-agenda-data', (req, res, next) => {
   console.log('set-agenda-data called')
   
   axios.get('https://platzi.com/agenda/')
     .then((response) => {
       var $ = cheerio.load(response.data)
-      eval($('script')[25].children[0].data)
+      eval($('html > body > script')[9].children[0].data)
       var dataArray = Object.values(data.scheduleItems.agenda_all.agenda_items)
 
       dataArray.sort( (a, b) => {
@@ -55,7 +55,7 @@ app.get('/set-agenda-data/', (req, res, next) => {
     })
 })
 
-app.get('/get-agenda-data/', (req, res, next) => {
+app.get('/get-agenda-data', (req, res, next) => {
   console.log('get-agenda-data called')
   res.setHeader('Cache-Control', 'public, max-age=43200')
   res.sendFile(path.join(__dirname, './data.json'))
